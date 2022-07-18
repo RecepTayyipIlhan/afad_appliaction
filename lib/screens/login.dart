@@ -1,17 +1,19 @@
-//import 'package:afad_application/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:afad_application/screens/menu_page.dart';
 import 'package:afad_app/screens/start_page.dart';
 import 'package:afad_app/screens/signup.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:afad_app/screens/menu_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:afad_app/services/auth.dart';
 //import 'package:afad_application/screens/User.dart';
 
+
 class LoginPage extends StatelessWidget {
-  //FirebaseFirestore firestore = FirebaseFirestore.instance;
- // CollectionReference users_ref = FirebaseFirestore.instance.collection('user');
-  //final TextEditingController email_c= TextEditingController();
-  //final TextEditingController password_c= TextEditingController();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference users_ref = FirebaseFirestore.instance.collection('user');
+  final TextEditingController email_c= TextEditingController();
+  final TextEditingController password_c= TextEditingController();
 
   //AuthService _authService = AuthService();
 
@@ -93,8 +95,10 @@ class LoginPage extends StatelessWidget {
                 ),
                 child: MaterialButton(
                   color: Colors.blueAccent.withOpacity(0.8),
-                  onPressed: () async {
-                    print("deneme");
+                  onPressed: () async{
+                   /* _authService.signIn(email_c.text, password_c.text).then((value) {
+                      return Navigator.push((context), MaterialPageRoute(builder: (context) => MenuPage()));
+                    });*/
                   },
                   minWidth: double.infinity,
                   height: 60,

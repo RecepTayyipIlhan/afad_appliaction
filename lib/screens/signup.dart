@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:afad_app/screens/login.dart';
 import 'package:afad_app/screens/start_page.dart';
 
+import 'package:afad_app/services/auth.dart';
 
 class SignupPage extends StatelessWidget {
-
-
   TextEditingController name_c = TextEditingController();
   TextEditingController surname_c = TextEditingController();
   TextEditingController email_c = TextEditingController();
@@ -20,13 +19,21 @@ class SignupPage extends StatelessWidget {
     return users_ref;
   }*/
 
-  void login_(String username, String surname, String password, String email, String phone ){
+  void signup_(String username, String surname, String password, String email,
+      String phone) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference users_ref = FirebaseFirestore.instance.collection('user');
-    //CollectionReference users_ref= firestore_test();
-    users_ref.add({'username':username, 'surname':surname,'phone':password, 'password':email,'email':phone});
+    CollectionReference users_ref =
+        FirebaseFirestore.instance.collection('user');
+    users_ref.add({
+      'username': username,
+      'surname': surname,
+      'phone': phone,
+      'password': password,
+      'email': email
+    });
   }
 
+  //AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +44,11 @@ class SignupPage extends StatelessWidget {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
-            Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage(),));
-
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(),
+                ));
           },
           icon: Icon(Icons.arrow_back_ios, size: 20, color: Colors.black),
         ),
@@ -75,15 +85,22 @@ class SignupPage extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40,vertical: 15),
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 child: Column(
                   children: <Widget>[
-                    makeInput(label: "Name",controller_name: name_c),
-                    makeInput(label: "Surname",controller_name: surname_c),
-                    makeInput(label: "Email",controller_name: email_c),
-                    makeInput(label: "Telefon Numarası",controller_name: phone_c),
-                    makeInput(label: "Şifre", obscureText: true,controller_name: password_c),
-                    makeInput(label: "Şifreyi Doğrula", obscureText: true,controller_name: password_c),
+                    makeInput(label: "Name", controller_name: name_c),
+                    makeInput(label: "Surname", controller_name: surname_c),
+                    makeInput(label: "Email", controller_name: email_c),
+                    makeInput(
+                        label: "Telefon Numarası", controller_name: phone_c),
+                    makeInput(
+                        label: "Şifre",
+                        obscureText: true,
+                        controller_name: password_c),
+                    makeInput(
+                        label: "Şifreyi Doğrula",
+                        obscureText: true,
+                        controller_name: password_c),
                   ],
                 ),
               ),
@@ -104,7 +121,20 @@ class SignupPage extends StatelessWidget {
                     color: Colors.blueAccent.withOpacity(0.8),
                     onPressed: () {
                       print(name_c.text);
-                      login_(name_c.text, surname_c.text, password_c.text, email_c.text, phone_c.text);
+                      signup_(name_c.text, surname_c.text, password_c.text, email_c.text, phone_c.text);
+                      /*_authService
+                          .createPerson(
+                        name_c.text,
+                        surname_c.text,
+                        email_c.text,
+                        password_c.text,
+                        phone_c.text,
+                      ).then((value) {
+                        return Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()));
+                      });*/
                     },
                     minWidth: double.infinity,
                     height: 60,
@@ -127,7 +157,11 @@ class SignupPage extends StatelessWidget {
                   Text("Eğer hesabınız varsa giriş yapınız."),
                   TextButton(
                       onPressed: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder:(context) => LoginPage(),));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ));
                       },
                       child: Text(
                         "Giriş",
@@ -149,7 +183,7 @@ class SignupPage extends StatelessWidget {
   }
 }
 
-Widget makeInput({label, obscureText = false,controller_name}) {
+Widget makeInput({label, obscureText = false, controller_name}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
